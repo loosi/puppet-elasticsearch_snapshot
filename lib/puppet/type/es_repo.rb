@@ -5,8 +5,8 @@
 #   settings     => { 'location' => '/data/snap'
 #                     'compress' => true },
 # }
-
-Puppet::Type.newtype(:es_repository) do
+# some test text
+Puppet::Type.newtype(:es_repo) do
 
   @doc = 'Create ES repo'
 
@@ -19,7 +19,7 @@ Puppet::Type.newtype(:es_repository) do
 
   newparam(:type) do
     newvalues('fs','url')
-    default_to('fs')
+    defaultto('fs')
   end
 
   newparam(:settings) do
@@ -27,5 +27,15 @@ Puppet::Type.newtype(:es_repository) do
     validate do |value|
       raise ArgumentError, "%s is not a hash" % value unless value.is_a? Hash
     end
+  end
+
+  newparam(:ip) do
+    desc 'IP of an elasticsearch host'
+    defaultto('127.0.0.1')
+  end
+
+  newparam(:port) do
+    desc 'Port of elasticsearch'
+    defaultto('9200')
   end
 end
