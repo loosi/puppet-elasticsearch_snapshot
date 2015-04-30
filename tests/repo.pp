@@ -1,10 +1,10 @@
 
 
 #test repo on localserver
-es_repository { 'test':
+es_repo { 'aaa':
   ensure   => present,
   type     => 'fs',
   settings => {
-    'location' => '/tmp/bla'
+    'location' => '/tmp/boe'
   },
 }
