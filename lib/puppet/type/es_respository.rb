@@ -5,7 +5,7 @@
 #   settings     => { 'location' => '/data/snap'
 #                     'compress' => true },
 # }
-
+# some test text
 Puppet::Type.newtype(:es_repository) do
 
   @doc = 'Create ES repo'
