@@ -28,4 +28,14 @@ Puppet::Type.newtype(:es_repository) do
       raise ArgumentError, "%s is not a hash" % value unless value.is_a? Hash
     end
   end
+
+  newparam(:ip) do
+    desc 'IP of an elasticsearch host'
+    default_to('127.0.0.1')
+  end
+
+  newparam(:port) do
+    desc 'Port of elasticsearch'
+    default_to('9200')
+  end
 end
