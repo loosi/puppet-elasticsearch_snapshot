@@ -1,0 +1,14 @@
+{
+  "name": "naturalis-elasticsearch_snapshot",
+  "version": "0.1.0",
+  "author": "Atze de Vries",
+  "summary": "Create and Manage Elasticsearch snapshots using puppet",
+  "license": "Apache 2.0",
+  "source": "https://github.com/naturalis/puppet-elasticsearch_snapshot",
+  "project_page": "https://github.com/naturalis/puppet-elasticsearch_snapshot",
+  "issues_url": "https://github.com/naturalis/puppet-elasticsearch_snapshot/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
