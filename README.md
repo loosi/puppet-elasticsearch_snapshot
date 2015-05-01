@@ -35,7 +35,7 @@ same location.
 
 ### Beginning with elasticsearch_snapshot
 
-git clone https://github.com/naturalis/puppet-elasticsearch_snapshot
+`git clone https://github.com/naturalis/puppet-elasticsearch_snapshot`
 
 ## Usage
 
