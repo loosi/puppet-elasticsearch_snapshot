@@ -23,7 +23,7 @@ Puppet::Type.newtype(:es_repo) do
   end
 
   newparam(:settings) do
-    desc 'Size of volume in GB'
+    desc 'settings of repo in a ruby hash'
     validate do |value|
       raise ArgumentError, "%s is not a hash" % value unless value.is_a? Hash
     end
