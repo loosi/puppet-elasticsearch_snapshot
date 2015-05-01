@@ -15,13 +15,13 @@ Puppet::Type.type(:es_repo).provide(:es_repo) do
   def create
     rest = Rest.new
     req = rest.put("http://#{resource[:ip]}:#{resource[:port]}/_snapshot/#{resource[:name]}", {'type' => resource[:type], 'settings' => resource[:settings] })
-    fail "repository creation failed" unless req == {"acknowledged"=>true}
+    fail "repository creation failed, message\n #{req}" unless req == {"acknowledged"=>true}
   end
 
   def destroy
     rest = Rest.new
     req = rest.delete("http://#{resource[:ip]}:#{resource[:port]}/_snapshot/#{resource[:name]}")
-    fail "repository creation failed" unless req == {"acknowledged"=>true}
+    fail "repository creation failed, message\n #{req}" unless req == {"acknowledged"=>true}
   end
 
 
