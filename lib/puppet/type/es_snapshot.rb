@@ -1,14 +1,6 @@
-# Class design
-# es_repository { 'my_backup ':
-#   ensure            => present,
-#   type    => 'fs',
-#   settings     => { 'location' => '/data/snap'
-#                     'compress' => true },
-#
-# some test text
 Puppet::Type.newtype(:es_snapshot) do
 
-  @doc = 'Create ES snapshot'
+  @doc = "Create ES snapshot"
 
   ensurable
 
