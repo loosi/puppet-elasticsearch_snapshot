@@ -6,10 +6,10 @@
 #                     'compress' => true },
 #
 # some test text
-module Puppet
+#module Puppet
 
   Puppet::Type.newtype(:es_snapshot) do
-    include Puppet::Util::Execution
+    #include Puppet::Util::Execution
     @doc = 'Create ES snapshot'
 
 
@@ -89,4 +89,4 @@ module Puppet
     end
 
   end
-end
+#end

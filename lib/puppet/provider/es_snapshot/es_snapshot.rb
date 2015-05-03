@@ -3,11 +3,10 @@
 #
 Puppet::Type.type(:es_snapshot).provide(:es_snapshot) do
   require File.join(File.dirname(__FILE__).split('/')[0..-2],'lib','rest.rb')
-  include Puppet::Util::Execution
+  #include Puppet::Util::Execution
 
 
-  def create(ref=false)
-
+  def create
     rest = Rest.new
     path_end = resource[:snapshot_name]
     path_end = "#{path_end}?wait_for_completion=true" if resource[:wait_for_completion].to_s == 'true'

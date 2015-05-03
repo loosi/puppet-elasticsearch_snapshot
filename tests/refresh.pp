@@ -6,7 +6,7 @@ exec {'/bin/echo boe':
 #test repo on localserver
 es_snapshot { 'test_snap':
   #ensure        => present,
-  snapshot_name => 'oijakljlijlij',
+  snapshot_name => 'ookkffll',
   repo          => 'aaa',
   refreshonly   => true
 }
