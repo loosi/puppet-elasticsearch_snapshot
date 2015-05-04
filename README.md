@@ -57,16 +57,19 @@ es_repo { 'mybackup':
 
 ```
 es_snapshot { 'snapshot':
-  ensure        => present,
   snapshot_name => 'snapshot_name_with_date',
   repo          => 'mybackup',
   ip            => '127.0.0.1',
   port          => '9200',
+  refreshonly   => true,
 }
 ```
 The resource name is 'snapshot' but the name of the snapshot is different. You can for
 example name the snapshot with a variable date. The resource name is the same, which is
-nice for puppet.
+nice for puppet. This resource supports the `refreshonly` parameter, just like the puppets
+own `exec` resource. This is feature is handy if you want to only trigger a snapshot after
+an event. If `refreshonly => false` the snapshot will be created at the puppet run only
+if the snapshot does not exists.
 
 **Restore a snapshot**
 
