@@ -15,46 +15,78 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+Create and restore elastic search snapshots
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
-
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+Well what would it do.
 
 ## Setup
 
 ### What elasticsearch_snapshot affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+* created snaphots, data is stored somewhere.
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+The module does not require anything. If you have a Elasticsearch cluster, you need
+a shared storage solution, since all Elasticsearch nodes need able to write at the
+same location.
 
 ### Beginning with elasticsearch_snapshot
 
-The very basic steps needed for a user to get the module up and running.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+`git clone https://github.com/naturalis/puppet-elasticsearch_snapshot`
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+**Create a repository**
+
+```
+es_repo { 'mybackup':
+  ensure   => present,
+  type     => 'fs',
+  settings => {
+    'location' => '/data/backup'
+  },
+  ip       => '127.0.0.1',
+  port     => '9200',
+}
+```
+
+**Create a snapshot**
+
+```
+es_snapshot { 'snapshot':
+  snapshot_name => 'snapshot_name_with_date',
+  repo          => 'mybackup',
+  ip            => '127.0.0.1',
+  port          => '9200',
+  refreshonly   => true,
+}
+```
+The resource name is 'snapshot' but the name of the snapshot is different. You can for
+example name the snapshot with a variable date. The resource name is the same, which is
+nice for puppet. This resource supports the `refreshonly` parameter, just like the puppets
+own `exec` resource. This is feature is handy if you want to only trigger a snapshot after
+an event. If `refreshonly => false` the snapshot will be created at the puppet run only
+if the snapshot does not exists.
+
+**Restore a snapshot**
+
+```
+es_restore { 'restore_job':
+  ensure        => present,
+  snapshot_name => 'snapshot_name_with_date',
+  store_state   => true,
+  repo          => 'mybackup',
+  ip            => '127.0.0.1',
+  port          => '9200',
+}
+```
+
+After a restore, a index .es_snapshot is created in elasticsearch with a document. This is importart
+since the es_restore type than check if the restore is done. Set `store_state => false` to disable this.
+
 
 ## Reference
 
