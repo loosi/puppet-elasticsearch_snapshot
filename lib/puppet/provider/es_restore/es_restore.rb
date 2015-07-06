@@ -23,7 +23,8 @@ Puppet::Type.type(:es_restore).provide(:es_restore) do
 
   def create
 
-
+    rest = Rest.new
+    
     es_snap_index = {'settings' => {'number_of_replicas' => 0}}
     req = rest.put("http://#{resource[:ip]}:#{resource[:port]}/.es_snapshot",es_snap_index)
     fail "Could not create snapshot state index '.es_snapshot' message\n #{req}" unless req == {"acknowledged"=>true}
@@ -32,7 +33,7 @@ Puppet::Type.type(:es_restore).provide(:es_restore) do
     req = rest.put("http://#{resource[:ip]}:#{resource[:port]}/.es_snapshot/restores/1",completed)
     fail "Failed to save state in document on ES, message\n #{req}" unless req['created']
 
-    rest = Rest.new
+
     close_index if resource[:close_index]
     path_end = "#{resource[:snapshot_name]}/_restore"
     path_end = "#{path_end}?wait_for_completion=true" if resource[:wait_for_completion].to_s == 'true'
