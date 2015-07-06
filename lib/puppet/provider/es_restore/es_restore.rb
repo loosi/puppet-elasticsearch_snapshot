@@ -36,7 +36,12 @@ Puppet::Type.type(:es_restore).provide(:es_restore) do
     }
     req = rest.post("http://#{resource[:ip]}:#{resource[:port]}/_snapshot/#{resource[:repo]}/#{path_end}", data)
     fail "restore failed, message\n #{req}" unless req == {"accepted"=>true}
-    completed = { 'restore_name' => resource[:snapshot_name]}
+
+    es_snap_index = {'settings' => {'number_of_replicas' => 0}}
+    req = rest.put("http://#{resource[:ip]}:#{resource[:port]}/.es_snapshot",es_snap_index)
+    fail "Could not create snapshot state index '.es_snapshot' message\n #{req}" unless req == {"accepted"=>true}
+
+    completed = { 'restore_name' => resource[:snapshot_name] }
     req = rest.put("http://#{resource[:ip]}:#{resource[:port]}/.es_snapshot/restores/1",completed)
     fail "Failed to save state in document on ES, message\n #{req}" unless req['created']
   end
@@ -47,6 +52,11 @@ Puppet::Type.type(:es_restore).provide(:es_restore) do
     req = rest.delete("http://#{resource[:ip]}:#{resource[:port]}/.es_snapshot/restores/1")
     fail "snapshot delete failed, message\n #{req}" unless req['found']
   end
+
+  def latest
+    puts 'running latest'
+  end
+
 
   def close_index
     rest = Rest.new
